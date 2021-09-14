@@ -604,6 +604,23 @@ int cd(char *pathname)
 		return 0;
 	}
 	
+	char pn[PATHNAME_SIZE] = "";
+	strcpy(pn, pathname);
+	char *t = strtok(pn, "/");
+	int fl1 = 0;
+	while (t != NULL)
+	{
+		if (!strcmp(t, ".."))
+		{
+			cwd = cwd->parent;
+			fl1 = 1;
+		}
+
+		t = strtok(NULL, "/");
+	}
+
+	if (fl1)
+		return 0;
 
   	//split pathname
 	p = (split_pathname(dirname, basename, 'D'));
