@@ -1,0 +1,2 @@
+sudo mke2fs -b 1024 diskimage 1440
+./mk

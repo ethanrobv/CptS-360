@@ -2,6 +2,17 @@
 #ifndef TYPE_H
 #define TYPE_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <ext2fs/ext2_fs.h>
+#include <string.h>
+#include <libgen.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <string.h>
+#include <unistd.h>
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,12 +37,12 @@ DIR *dp;
 typedef struct minode
 {
   INODE INODE;          // INODE structure on disk
-  int dev, ino;         // (dev, ino) of INODE
-  int refCount;         // in use count
-  int dirty;            // 0 for clean, 1 for modified
+  int dev, ino;                     // (dev, ino) of INODE
+  int refCount;                     // in use count
+  int dirty;                        // 0 for clean, 1 for modified
 
-  int mounted;          // for level-3
-  struct mntable *mptr; // for level-3
+  int mounted;              // for level-3
+  struct mntable *mptr;     // for level-3
 } MINODE;
 
 typedef struct proc

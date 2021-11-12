@@ -1,14 +1,3 @@
-/*********** util.c file ****************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <ext2fs/ext2_fs.h>
-#include <string.h>
-#include <libgen.h>
-#include <sys/stat.h>
-#include <time.h>
-#include <unistd.h>
-
 #include "type.h"
 
 /**** globals defined in main.c file ****/
@@ -42,7 +31,9 @@ int tokenize(char *pathname)
    int i;
    char *s;
    //printf("tokenize %s\n", pathname);
-
+   bzero(gpath, 128);
+   for (int i = 0; i < 64; i++)
+      name[i] = 0;
    strcpy(gpath, pathname); // tokens are in global gpath[ ]
    n = 0;
 
@@ -56,7 +47,7 @@ int tokenize(char *pathname)
    name[n] = 0;
 
    //for (i = 0; i < n; i++)
-      //printf("%s  ", name[i]);
+   //printf("%s  ", name[i]);
    //printf("\n");
 }
 
@@ -123,14 +114,13 @@ void iput(MINODE *mip)
    if (!mip->dirty)
       return;
 
-   /* write INODE back to disk */
-   /**************** NOTE ******************************
-  For mountroot, we never MODIFY any loaded INODE
-                 so no need to write it back
-  FOR LATER WORK- MUST write INODE back to disk if refCount==0 && DIRTY
+   block = (mip->ino - 1) / 8 + iblk;
+   offset = (mip->ino - 1) % 8;
 
-  Write YOUR code here to write INODE back to disk
- *****************************************************/
+   get_block(mip->dev, block, buf);
+   ip = (INODE*)buf + offset;
+   *ip = mip->INODE;
+   put_block(dev, block, buf);
 }
 
 int search(MINODE *mip, char *name)
@@ -155,7 +145,7 @@ int search(MINODE *mip, char *name)
       strncpy(temp, dp->name, dp->name_len);
       temp[dp->name_len] = 0;
       //printf("%4d  %4d  %4d    %s\n",
-             //dp->inode, dp->rec_len, dp->name_len, dp->name);
+      //dp->inode, dp->rec_len, dp->name_len, dp->name);
       if (strcmp(temp, name) == 0)
       {
          //printf("found %s : ino = %d\n", temp, dp->inode);
@@ -174,7 +164,7 @@ int getino(char *pathname)
    INODE *ip;
    MINODE *mip;
 
-   //printf("getino: pathname=%s\n", pathname);
+   printf("getino: pathname=%s\n", pathname);
    if (strcmp(pathname, "/") == 0)
       return 2;
 
@@ -209,18 +199,183 @@ int getino(char *pathname)
    return ino;
 }
 
-// These 2 functions are needed for pwd()
-int findmyname(MINODE *parent, u32 myino, char myname[])
+int tst_bit(char *buf, int bit)
 {
-   // WRITE YOUR code here
-   // search parent's data block for myino; SAME as search() but by myino
-   // copy its name STRING to myname[ ]
-   
+   return buf[bit / 8] & (1 << (bit % 8));
 }
 
-int findino(MINODE *mip, u32 *myino) // myino = i# of . return i# of ..
+int set_bit(char *buf, int bit)
 {
-   // mip points at a DIR minode
-   // WRITE your code here: myino = ino of .  return ino of ..
-   // all in i_block[0] of this DIR INODE.
+   buf[bit / 8] |= (1 << (bit % 8));
+   return 0;
+}
+
+int dec_free_inodes(int dev)
+{
+   //dec free nodes in SUPER and GD
+   char buf[BLKSIZE];
+   get_block(dev, 1, buf);
+   sp = (SUPER*)buf;
+   sp->s_free_inodes_count--;
+   put_block(dev, 1, buf);
+
+   get_block(dev, 2, buf);
+   gp = (GD*)buf;
+   gp->bg_free_inodes_count--;
+   put_block(dev, 2, buf);
+
+   return 0;
+}
+
+int inc_free_inodes(int dev)
+{
+   //inc free nodes in SUPER and GD
+   char buf[BLKSIZE];
+   get_block(dev, 1, buf);
+   sp = (SUPER*)buf;
+   sp->s_free_inodes_count++;
+   put_block(dev, 1, buf);
+
+   get_block(dev, 2, buf);
+   gp = (GD*)buf;
+   gp->bg_free_inodes_count++;
+   put_block(dev, 2, buf);
+
+   return 0;
+}
+
+int clr_bit(char *buf, int bit)
+{
+   buf[bit/8] &= ~(1 << (bit%8));
+}
+
+int ialloc(int dev)
+{
+   int i;
+   char buf[BLKSIZE];
+
+   get_block(dev, imap, buf);
+
+   for (i = 0; i < ninodes; i++)
+   {
+      if (tst_bit(buf, i) == 0)
+      {
+         set_bit(buf, i);
+         put_block(dev, imap, buf);
+         //update free inode count in SUPER and GD
+         dec_free_inodes(dev);
+         return (i + 1);
+      }
+   }
+   return 0; //no more free inodes
+}
+
+int idalloc(int dev, int ino)
+{
+   int i;
+   char buf[BLKSIZE];
+   if (ino > ninodes)
+   {
+      printf("inumber %d out of range\n", ino);
+      return -1;
+   }
+   get_block(dev, imap, buf);
+   clr_bit(buf, ino-1);
+   put_block(dev, imap, buf);
+   inc_free_inodes(dev);
+   
+   return 0;
+}
+
+int dec_free_blocks(int dev)
+{
+   //dec free blocks in SUPER and GD
+   char buf[BLKSIZE];
+   get_block(dev, 1, buf);
+   sp = (SUPER *)buf;
+   sp->s_free_blocks_count--;
+   put_block(dev, 1, buf);
+
+   get_block(dev, 2, buf);
+   gp = (GD *)buf;
+   gp->bg_free_blocks_count--;
+   put_block(dev, 2, buf);
+
+   return 0;
+}
+
+int inc_free_blocks(int dev)
+{
+   //inc free blocks in SUPER and GD
+   char buf[BLKSIZE];
+   get_block(dev, 1, buf);
+   sp = (SUPER *)buf;
+   sp->s_free_blocks_count++;
+   put_block(dev, 1, buf);
+
+   get_block(dev, 2, buf);
+   gp = (GD *)buf;
+   gp->bg_free_blocks_count++;
+   put_block(dev, 2, buf);
+
+   return 0;
+}
+
+int balloc(int dev)
+{
+   int i;
+   char buf[BLKSIZE];
+
+   get_block(dev, bmap, buf);
+
+   for (i = 0; i < nblocks; i++)
+   {
+      if (tst_bit(buf, i) == 0)
+      {
+         set_bit(buf, i);
+         put_block(dev, bmap, buf);
+         dec_free_blocks(dev);
+         return i;
+      }
+   }
+   return 0; //no more blocks :(
+}
+
+int bdalloc(int dev, int bno)
+{
+   int i;
+   char buf[BLKSIZE];
+   if (bno > nblocks)
+   {
+      printf("block number %d out of range\n", bno);
+      return -1;
+   }
+   get_block(dev, bmap, buf);
+   clr_bit(buf, bno);
+   put_block(dev, bmap, buf);
+   inc_free_blocks(dev);
+
+   return 0;
+}
+
+int ideal_len(char *n)
+{
+   return (4 * ((8 + strlen(n) + 3) / 4));
+}
+
+int find_name(MINODE *pmip, int ino, char *temp)
+{
+   char buf[BLKSIZE]; char *cp; DIR *dp;
+   get_block(pmip->dev, pmip->INODE.i_block[0], buf);
+   cp = buf;
+   dp = (DIR*)buf;
+   while (cp < buf + BLKSIZE)
+   {
+      temp = dp->name;
+      if (ino == getino(dp->name))
+         return 0;
+      cp += dp->rec_len;
+      dp = (DIR*)cp;
+   }
+   return 1;
 }
