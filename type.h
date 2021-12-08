@@ -1,4 +1,4 @@
-/*************** type.h file for LEVEL-1 ****************/
+/*************** type.h file for LEVEL-2 ****************/
 #ifndef TYPE_H
 #define TYPE_H
 
@@ -33,6 +33,8 @@ DIR *dp;
 #define BLKSIZE 1024
 #define NMINODE 128
 #define NPROC 2
+#define NFD 10
+#define NOFT 64
 
 typedef struct minode
 {
@@ -45,6 +47,15 @@ typedef struct minode
   struct mntable *mptr;     // for level-3
 } MINODE;
 
+typedef struct oft
+{
+  int mode;
+  int refCount;
+  MINODE *minodePtr;
+  int offset;
+} OFT;
+OFT oft[NOFT];
+
 typedef struct proc
 {
   struct proc *next;
@@ -53,5 +64,23 @@ typedef struct proc
   int gid;
   int status;           // READY or FREE
   MINODE *cwd;          // CWD directory pointer
+
+  OFT *fd[NFD];
 } PROC;
+
+
+/**** globals defined in main.c file ****/
+extern MINODE minode[NMINODE];
+extern MINODE *root;
+extern PROC proc[NPROC], *running;
+
+extern char gpath[128];
+extern char *name[64];
+extern int n;
+
+extern int fd, dev;
+extern int nblocks, ninodes, bmap, imap, iblk;
+
+extern char line[128], cmd[32], pathname[128];
+
 #endif

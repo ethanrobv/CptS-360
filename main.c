@@ -18,6 +18,8 @@ extern int my_link();
 extern int my_unlink();
 extern int my_symlink();
 extern int my_readlink();
+extern int my_cat();
+extern int my_cp();
 
 MINODE minode[NMINODE];
 MINODE *root;
@@ -52,6 +54,9 @@ int init()
     p = &proc[i];
     p->pid = i;
     p->uid = p->gid = 0;
+    //set all file descriptors to NULL
+    for (j = 0; j < NFD; j++)
+      proc[i].fd[j] = 0;
     p->cwd = 0;
   }
 }
@@ -85,6 +90,11 @@ int main(int argc, char *argv[])
   
   int ino;
   char buf[BLKSIZE];
+
+  if (argc > 1)
+  {
+    disk = argv[1];
+  }
 
   printf("checking EXT2 FS ....");
   if ((fd = open(disk, O_RDWR)) < 0)
@@ -177,6 +187,10 @@ int main(int argc, char *argv[])
       my_symlink(pathname, pathname2);
     else if (strcmp(cmd, "readlink")==0)
       my_readlink(pathname);
+    else if (strcmp(cmd, "cat")==0)
+      my_cat(pathname);
+    else if (strcmp(cmd, "cp")==0)
+      my_cp(pathname, pathname2);
     else if (strcmp(cmd, "quit") == 0)
           quit();
 
