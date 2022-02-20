@@ -1,0 +1,156 @@
+enter main
+&argc=0xfff07b00 argv=0xfff07aac env=0xfff07aa8
+&a=0xfff07abc &b=0xfff07ac0 &c=0xfff07ac4
+*argc=1
+*argv=
+./a.out
+
+
+enter A
+&d=0xfff07a70 &e=0xfff07a74 &f=0xfff07a78
+
+enter B
+&g=0xfff07a40 &h=0xfff07a44 &i=0xfff07a48
+
+enter C
+&u=0xfff07a04 &v=0xfff07a08 &w=0xfff07a0c &i=0xfff07a10 &p=0xfff07a14
+FP=0xfff07a28
+stack frame linked list
+0xfff07a28 -> 0xfff07a58 -> 0xfff07a88 -> 0xfff07ae8 -> (nil)
+128 stack entries
+0xfff07a04     a
+0xfff07a08     b
+0xfff07a0c     c
+0xfff07a10     d
+0xfff07a14     fff07a14
+0xfff07a18     5
+0xfff07a1c     48c5b00
+0xfff07a20     fff07b00
+0xfff07a24     565f8fcc
+0xfff07a28     fff07a58
+0xfff07a2c     565f6422
+0xfff07a30     7
+0xfff07a34     8
+0xfff07a38     fff07a44
+0xfff07a3c     fff07a48
+0xfff07a40     7
+0xfff07a44     8
+0xfff07a48     9
+0xfff07a4c     48c5b00
+0xfff07a50     fff07b00
+0xfff07a54     565f8fcc
+0xfff07a58     fff07a88
+0xfff07a5c     565f6383
+0xfff07a60     4
+0xfff07a64     5
+0xfff07a68     fff07a74
+0xfff07a6c     fff07a78
+0xfff07a70     4
+0xfff07a74     5
+0xfff07a78     6
+0xfff07a7c     48c5b00
+0xfff07a80     fff07b00
+0xfff07a84     565f8fcc
+0xfff07a88     fff07ae8
+0xfff07a8c     565f62da
+0xfff07a90     1
+0xfff07a94     2
+0xfff07a98     fff07ac0
+0xfff07a9c     fff07ac4
+0xfff07aa0     0
+0xfff07aa4     f7f69000
+0xfff07aa8     fff07b9c
+0xfff07aac     fff07b94
+0xfff07ab0     f7f69000
+0xfff07ab4     f7f992f0
+0xfff07ab8     0
+0xfff07abc     1
+0xfff07ac0     2
+0xfff07ac4     3
+0xfff07ac8     1
+0xfff07acc     48c5b00
+0xfff07ad0     1
+0xfff07ad4     fff07b94
+0xfff07ad8     fff07b9c
+0xfff07adc     fff07b00
+0xfff07ae0     0
+0xfff07ae4     f7f69000
+0xfff07ae8     0
+0xfff07aec     f7d9cee5
+0xfff07af0     f7f69000
+0xfff07af4     f7f69000
+0xfff07af8     0
+0xfff07afc     f7d9cee5
+0xfff07b00     1
+0xfff07b04     fff07b94
+0xfff07b08     fff07b9c
+0xfff07b0c     fff07b24
+0xfff07b10     f7f69000
+0xfff07b14     f7fb4000
+0xfff07b18     fff07b78
+0xfff07b1c     0
+0xfff07b20     f7fb4990
+0xfff07b24     0
+0xfff07b28     f7f69000
+0xfff07b2c     f7f69000
+0xfff07b30     0
+0xfff07b34     9f4060b5
+0xfff07b38     cc2b26a5
+0xfff07b3c     0
+0xfff07b40     0
+0xfff07b44     0
+0xfff07b48     0
+0xfff07b4c     0
+0xfff07b50     0
+0xfff07b54     0
+0xfff07b58     f7f9919d
+0xfff07b5c     565f8fcc
+0xfff07b60     1
+0xfff07b64     565f60a0
+0xfff07b68     0
+0xfff07b6c     565f60d5
+0xfff07b70     565f61dd
+0xfff07b74     1
+0xfff07b78     fff07b94
+0xfff07b7c     565f65e0
+0xfff07b80     565f6650
+0xfff07b84     f7f992f0
+0xfff07b88     fff07b8c
+0xfff07b8c     1c
+0xfff07b90     1
+0xfff07b94     fff08132
+0xfff07b98     0
+0xfff07b9c     fff0813a
+0xfff07ba0     fff0814a
+0xfff07ba4     fff081d4
+0xfff07ba8     fff081e7
+0xfff07bac     fff081fb
+0xfff07bb0     fff08228
+0xfff07bb4     fff0823f
+0xfff07bb8     fff0825b
+0xfff07bbc     fff08287
+0xfff07bc0     fff082b7
+0xfff07bc4     fff082d7
+0xfff07bc8     fff08300
+0xfff07bcc     fff08344
+0xfff07bd0     fff08358
+0xfff07bd4     fff0836f
+0xfff07bd8     fff08382
+0xfff07bdc     fff083cf
+0xfff07be0     fff083eb
+0xfff07be4     fff0841b
+0xfff07be8     fff08459
+0xfff07bec     fff08474
+0xfff07bf0     fff08480
+0xfff07bf4     fff08495
+0xfff07bf8     fff084c9
+0xfff07bfc     fff084f2
+0xfff07c00     fff0852c
+
+exit C
+
+exit B
+
+exit A
+
+exit main

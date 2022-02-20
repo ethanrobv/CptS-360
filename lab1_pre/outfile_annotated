@@ -1,0 +1,154 @@
+enter main
+&argc=0xff896100 argv=0xff896194 env=0xff8961a8
+&a=0xff8960bc &b=0xff8960c0 &c=0xff8960c4
+*argc=4
+*argv=46 111 116 116 
+
+enter A
+&d=0xff896070 &e=0xff896074 &f=0xff896078
+
+enter B
+&g=0xff896040 &h=0xff896044 &i=0xff896048
+
+enter C
+&u=0xff896004 &v=0xff896008 &w=0xff89600c &i=0xff896010 &p=0xff896014
+FP=0xff896028
+stack frame linked list
+0xff896028 -> 0xff896058 -> 0xff896088 -> 0xff8960e8 -> (nil)
+128 stack entries
+0xff896004     a	        u = 10
+0xff896008     b	        v = 11
+0xff89600c     c	        w = 12
+0xff896010     d	        i = 13
+0xff896014     ff896014	
+0xff896018     5	
+0xff89601c     a75b3900
+0xff896020     ff896100
+0xff896024     565affd0
+0xff896028     ff896058	    FP
+0xff89602c     565ad40e	    retPC
+0xff896030     7
+0xff896034     8
+0xff896038     ff896044
+0xff89603c     ff896048
+0xff896040     7	        g=7
+0xff896044     8	        h=8
+0xff896048     9	        i=9
+0xff89604c     a75b3900
+0xff896050     ff896100
+0xff896054     565affd0
+0xff896058     ff896088	    FP
+0xff89605c     565ad36f	    retPC
+0xff896060     4
+0xff896064     5
+0xff896068     ff896074
+0xff89606c     ff896078
+0xff896070     4	        d = 4
+0xff896074     5	        e = 5
+0xff896078     6	        f = 6
+0xff89607c     a75b3900
+0xff896080     ff896100
+0xff896084     565affd0
+0xff896088     ff8960e8	    FP
+0xff89608c     565ad2c6	    retPC
+0xff896090     1
+0xff896094     2
+0xff896098     ff8960c0
+0xff89609c     ff8960c4
+0xff8960a0     0
+0xff8960a4     f7ee2000
+0xff8960a8     ff8961a8
+0xff8960ac     ff896194
+0xff8960b0     f7ee2000
+0xff8960b4     f7f112d0
+0xff8960b8     0	
+0xff8960bc     1	        a=1
+0xff8960c0     2	        b=2
+0xff8960c4     3	        c=3
+0xff8960c8     4
+0xff8960cc     a75b3900
+0xff8960d0     4
+0xff8960d4     ff896194
+0xff8960d8     ff8961a8
+0xff8960dc     ff896100
+0xff8960e0     0
+0xff8960e4     f7ee2000
+0xff8960e8     0	        FP
+0xff8960ec     f7d19ee5
+0xff8960f0     f7ee2000
+0xff8960f4     f7ee2000
+0xff8960f8     0
+0xff8960fc     f7d19ee5
+0xff896100     4	        argc = 4
+0xff896104     ff896194	    argv location
+0xff896108     ff8961a8	    env location
+0xff89610c     ff896124
+0xff896110     f7ee2000
+0xff896114     f7f2c000
+0xff896118     ff896178
+0xff89611c     0
+0xff896120     f7f2c990
+0xff896124     0
+0xff896128     f7ee2000
+0xff89612c     f7ee2000
+0xff896130     0
+0xff896134     6d5af3a2
+0xff896138     dca5b5b2
+0xff89613c     0
+0xff896140     0
+0xff896144     0
+0xff896148     0
+0xff89614c     0
+0xff896150     0
+0xff896154     0
+0xff896158     f7f1117d
+0xff89615c     565affd0
+0xff896160     4
+0xff896164     565ad090
+0xff896168     0
+0xff89616c     565ad0c5
+0xff896170     565ad1cd
+0xff896174     4
+0xff896178     ff896194
+0xff89617c     565ad5d0
+0xff896180     565ad640
+0xff896184     f7f112d0
+0xff896188     ff89618c
+0xff89618c     1c
+0xff896190     4	
+0xff896194     ff896411
+0xff896198     ff896419
+0xff89619c     ff89641d
+0xff8961a0     ff896421
+0xff8961a4     0
+0xff8961a8     ff896427
+0xff8961ac     ff896437
+0xff8961b0     ff8964c1
+0xff8961b4     ff8964d4
+0xff8961b8     ff8964e8
+0xff8961bc     ff896515
+0xff8961c0     ff89652c
+0xff8961c4     ff896558
+0xff8961c8     ff896578
+0xff8961cc     ff8965a1
+0xff8961d0     ff8965b5
+0xff8961d4     ff8965cc
+0xff8961d8     ff8965df
+0xff8961dc     ff8965fb
+0xff8961e0     ff89662b
+0xff8961e4     ff896637
+0xff8961e8     ff896652
+0xff8961ec     ff896667
+0xff8961f0     ff89669b
+0xff8961f4     ff8966c4
+0xff8961f8     ff8966e5
+0xff8961fc     ff8966f2
+0xff896200     ff896701
+
+exit C
+
+exit B
+
+exit A
+
+exit main
